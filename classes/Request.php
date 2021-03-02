@@ -13,6 +13,9 @@ class Request {
     public $POST = [];
     public string $BODY = "";
 
+    public $workermanRequest;
+    public $workermanConnection;
+
     public $response;
 
     public $onError;
@@ -45,23 +48,34 @@ class Request {
         $this->POST = (object) [];
 
         $this->response = new \Response();
+        $this->response->request = $this;
     }
 
     public function run() {
         try {
             $middlewares = [
-                'database',
-                'sessions',
-                'modules',
+                '\Middleware\Errors',
+                '\Middleware\Database',
+                '\Middleware\Sessions',
+                '\Middleware\Modules',
             ];
             $mwDir = Path::get('middleware');
-            foreach ($middlewares as $mwFile) {
-                include $mwDir . '/' . $mwFile . '.php';
+            foreach ($middlewares as $mw) {
+                $mw::run($this, $this->response);
             }
         } catch (\Throwable $t) {
 
-            $this->response->status(500);
+            if (is_callable($this->onError)) {
+                call_user_func($this->onError, $this, $t);
+            } else {
 
+                if ($this->source == 'workerman') {
+                    echo "Error: " . ($t->getMessage()) . "\n";
+                }
+
+            }
+
+            $this->response->status(500);
         }
     }
 

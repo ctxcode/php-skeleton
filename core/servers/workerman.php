@@ -19,6 +19,7 @@ $http_worker->onMessage = function (Workerman\Connection\TcpConnection $connecti
     $req->POST = $request->post();
     $req->BODY = $request->rawBody();
     $req->workermanConnection = $connection;
+    $req->workermanRequest = $request;
 
     $req->run();
 
