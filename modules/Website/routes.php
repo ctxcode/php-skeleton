@@ -1,5 +1,5 @@
 <?php
 
 return [
-    ['GET', '/', 'HomeController', 'home'],
+    ['GET', '/', 'pages.home'],
 ];

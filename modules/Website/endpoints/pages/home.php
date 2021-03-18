@@ -1,8 +1,6 @@
 <?php
 
-namespace Website\Controllers;
-
-class HomeController {
+return new class {
 
     public function test($mysql, $pg) {
 
@@ -14,4 +12,4 @@ class HomeController {
 
     }
 
-}
+};
