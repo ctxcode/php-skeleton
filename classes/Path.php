@@ -11,6 +11,9 @@ class Path {
             case "models":
                 return $root . "/models";
                 break;
+            case "structs":
+                return $root . "/structs";
+                break;
             case "storage":
                 return $root . "/storage";
                 break;

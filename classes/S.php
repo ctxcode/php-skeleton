@@ -21,4 +21,12 @@ class S {
         return new \Struct\_Array($args);
     }
 
+    public static function load($name): \Struct\Struct{
+        $path = \Path::get('structs') . str_replace('.', '/', $name) . '.php';
+        if (file_exists($path)) {
+            return include $path;
+        }
+        throw new \Exception("Struct does not exist: $name");
+    }
+
 }
