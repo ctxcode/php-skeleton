@@ -20,5 +20,6 @@ class Test {
     }
 
     public function error($msg) {
+        echo "Error: $msg\n";
     }
 }

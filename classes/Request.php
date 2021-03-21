@@ -13,16 +13,20 @@ class Request {
     public $POST = [];
     public string $BODY = "";
 
-    public $workermanRequest;
-    public $workermanConnection;
+    public $workerman_request;
+    public $workerman_connection;
 
     public $response;
+    public $router;
 
-    public $onError;
+    public $on_error;
 
     private static $METHODS = ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'];
     private static $PROTOCOLS = ['http', 'https'];
     private static $SOURCES = ['workerman', 'fpm', 'cli'];
+
+    public static $middleware_cache = [];
+    public static $use_middleware_cahe = true;
 
     public function __construct($method, $protocol, $domain, $path, $source) {
 
@@ -47,6 +51,8 @@ class Request {
         $this->GET = (object) [];
         $this->POST = (object) [];
 
+        $this->router = new \Router();
+
         $this->response = new \Response();
         $this->response->request = $this;
     }
@@ -54,19 +60,36 @@ class Request {
     public function run() {
         try {
             $middlewares = [
-                '\Middleware\Errors',
-                '\Middleware\Database',
-                '\Middleware\Sessions',
-                '\Middleware\Modules',
+                'errors',
+                'database',
+                'sessions',
+                'modules',
             ];
             $mwDir = Path::get('middleware');
             foreach ($middlewares as $mw) {
-                $mw::run($this, $this->response);
+                $path = $mwDir . '/' . $mw . '.php';
+                if (isset(static::$middleware_cache[$path])) {
+                    $mwFunc = static::$middleware_cache[$path];
+                } else {
+                    $mwFunc = include $path;
+                }
+                if (static::$use_middleware_cahe) {
+                    static::$middleware_cache[$path] = $mwFunc;
+                }
+                $mwFunc($this, $this->response);
+
+                if ($this->response->is_sent) {
+                    return;
+                }
             }
+
+            // Handle routing
+            $this->router->run($this, $this->response);
+
         } catch (\Throwable $t) {
 
-            if (is_callable($this->onError)) {
-                call_user_func($this->onError, $this, $t);
+            if (is_callable($this->on_error)) {
+                call_user_func($this->on_error, $this, $t);
             } else {
 
                 if ($this->source == 'workerman') {

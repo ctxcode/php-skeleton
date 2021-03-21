@@ -1,0 +1,41 @@
+{
+    "environment": "production",
+    "server": "aws_paris_001",
+    "databases": {
+        "default": {
+            "type": "mysql",
+            "read": [
+                {
+                    "host": "143.145.2.101",
+                    "user": "root",
+                    "password": "my_password"
+                },
+                {
+                    "host": "143.145.2.102",
+                    "user": "root",
+                    "password": "my_password"
+                }
+            ],
+            "write": {
+                "host": "143.145.2.100",
+                "user": "root",
+                "password": "my_password"
+            }
+        },
+        "cache_server": {
+            "type": "redis",
+            "read": {
+                "host": "127.0.0.1",
+                "password": "my_password",
+                "port": 6379,
+                "database": 0
+            },
+            "write": {
+                "host": "127.0.0.1",
+                "password": "my_password",
+                "port": 6379,
+                "database": 0
+            }
+        }
+    }
+}
