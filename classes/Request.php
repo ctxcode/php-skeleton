@@ -5,6 +5,7 @@ class Request {
     public $method;
     public $protocol;
     public $domain;
+    public $real_domain;
     public $path;
     public $source;
     public $headers = [];
@@ -45,6 +46,7 @@ class Request {
         $this->method = $method;
         $this->protocol = $protocol;
         $this->domain = $domain;
+        $this->real_domain = $domain;
         $this->path = $path;
         $this->source = $source;
 
@@ -58,9 +60,11 @@ class Request {
     }
 
     public function run() {
+
         try {
             $middlewares = [
                 'errors',
+                'domains',
                 'database',
                 'sessions',
                 'modules',

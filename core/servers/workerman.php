@@ -23,7 +23,7 @@ $http_worker->onMessage = function (Workerman\Connection\TcpConnection $connecti
 
     $req->run();
 
-    if (!$req->response->isSent) {
+    if (!$req->response->is_sent) {
         $connection->send('No reply from server...');
     }
 };

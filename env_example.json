@@ -1,6 +1,6 @@
 {
-    "environment": "production",
-    "server": "aws_paris_001",
+    "environment": "staging",
+    "server": "aws_paris_stag_001",
     "databases": {
         "default": {
             "type": "mysql",
@@ -39,6 +39,12 @@
                 "port": 6379,
                 "database": 0
             }
+        }
+    },
+    "domains": {
+        "alias": {
+            "stag.mywebsite.com": "mywebsite.com",
+            "stag.api.mywebsite.com": "api.mywebsite.com"
         }
     }
 }

@@ -5,7 +5,7 @@ use Workerman\Protocols\Http\Response as WorkermanResponse;
 class Response {
 
     public $request;
-    public $isSent = false;
+    public $is_sent = false;
 
     private $workermanResponse;
 
@@ -18,7 +18,7 @@ class Response {
 
     public function html(string $html) {
         $this->sendHeaders([
-            'Content-Type' => 'text/plain',
+            'Content-Type' => 'text/html',
         ]);
         $this->sendBody($html);
     }
@@ -53,7 +53,7 @@ class Response {
     }
     public function sendBody(string $body) {
 
-        $this->isSent = true;
+        $this->is_sent = true;
 
         if ($this->request->source == 'workerman') {
             $res = $this->getWorkermanResponse();

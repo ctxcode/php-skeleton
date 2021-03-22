@@ -5,6 +5,12 @@ class Path {
     public static function get($name) {
         $root = realpath(__DIR__ . '/../');
         switch ($name) {
+            case "root":
+                return $root;
+                break;
+            case "configs":
+                return $root . "/configs";
+                break;
             case "classes":
                 return $root . "/classes";
                 break;
