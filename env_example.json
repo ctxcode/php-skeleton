@@ -1,8 +1,10 @@
 {
-    "environment": "staging",
-    "server": "aws_paris_stag_001",
+    "environment": {
+        "name": "staging",
+        "debug": true
+    },
     "databases": {
-        "default": {
+        "main": {
             "type": "mysql",
             "read": [
                 {

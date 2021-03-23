@@ -4,13 +4,17 @@ return new class {
 
     public function run($req, $res) {
 
-        return $res->html("Le homepage!");
+        $db = \DB::main();
+        $user = $db->User->find(1);
         // $user = \Model\User::query($mysql)->find(1);
-        // $user->firstname = "TEST";
-        // $user->save();
+        $user->firstname = "TEST";
+        $user->save();
 
-        // \Model\User::query($pg)->insert($user);
+        $pg = \DB::pg();
+        $pg->User->insert($user);
 
+        $html = \View::render('website.views.pages.home', ['message' => 'Hello world!']);
+        return $res->html($html);
     }
 
 };

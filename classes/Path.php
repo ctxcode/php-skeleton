@@ -23,6 +23,9 @@ class Path {
             case "storage":
                 return $root . "/storage";
                 break;
+            case "cache":
+                return $root . "/storage/cache";
+                break;
             case "public":
                 return $root . "/public";
                 break;

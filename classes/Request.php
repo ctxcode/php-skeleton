@@ -65,7 +65,6 @@ class Request {
             $middlewares = [
                 'errors',
                 'domains',
-                'database',
                 'sessions',
                 'modules',
             ];

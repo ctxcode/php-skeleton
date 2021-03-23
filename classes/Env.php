@@ -21,4 +21,9 @@ class Env {
         return $data;
     }
 
+    public static function isDebug() {
+        $conf = static::getConfig();
+        return $conf['environment']['debug'] ?? false;
+    }
+
 }
